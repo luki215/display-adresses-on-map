@@ -91,7 +91,7 @@ document.getElementById('showOnMap').addEventListener('click', function(e) {
             addressChunk.forEach(function(address) {
                 new SMap.Geocoder(address, processGeocodeResponse);    
             });
-        }, i * 500);
+        }, i * 300);
         i++;
     });
     
