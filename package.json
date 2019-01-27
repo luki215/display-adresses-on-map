@@ -1,0 +1,11 @@
+{
+  "name": "display-adresses-on-map",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:luki215/display-adresses-on-map.git",
+  "author": "lukas@brezinovi.sk",
+  "license": "MIT",
+  "scripts": {
+    "deploy": "cp -R src/* public; firebase deploy"
+  }
+}
