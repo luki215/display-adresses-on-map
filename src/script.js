@@ -27,6 +27,10 @@ var Errors = function() {
         errorList.push(err);
         renderErrors();
     }
+    this.clear = function() {
+        errorList = [];
+        renderErrors();
+    }
 }
 
 var errorsHandler = new Errors();
@@ -34,10 +38,8 @@ var errorsHandler = new Errors();
 
 /* Geocoding and map displaying helpers */
 
-//var markers = [];
 function displayCoordsOnMap(coords) {
     var marker = new SMap.Marker(coords);
-  //  markers.push(marker);
     layer.addMarker(marker);
 }
 
@@ -61,6 +63,16 @@ function getAdresses() {
     return textAreaContent.split('\n');
 }
 
+function chunkArray(myArray, chunk_size){
+    var results = [];
+    
+    while (myArray.length) {
+        results.push(myArray.splice(0, chunk_size));
+    }
+    
+    return results;
+}
+
 
 /* 
 * On click on button get all adresses from textarea and display them on map 
@@ -68,9 +80,20 @@ function getAdresses() {
 
 document.getElementById('showOnMap').addEventListener('click', function(e) {
     clusterer.clear();
+    errorsHandler.clear();
     var addresses = getAdresses();
-    addresses.forEach(function(address) {
-        new SMap.Geocoder(address, processGeocodeResponse);    
+
+    chunkedAdresses = chunkArray(addresses, 20);
+
+    var i = 0;
+    chunkedAdresses.forEach(function(addressChunk) {
+        window.setTimeout(function() {
+            addressChunk.forEach(function(address) {
+                new SMap.Geocoder(address, processGeocodeResponse);    
+            });
+        }, i * 500);
+        i++;
     });
+    
 });
 
